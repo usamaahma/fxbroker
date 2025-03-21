@@ -7,7 +7,9 @@ const register = {
     password: Joi.string().required().custom(password),
     name: Joi.string().required(),
     age: Joi.number().integer().min(1).required(),
-    phoneNumber: Joi.string().required().pattern(/^\+?[1-9]\d{1,14}$/),
+    phoneNumber: Joi.string()
+      .required()
+      .pattern(/^\+?[1-9]\d{1,14}$/),
     country: Joi.string().required(),
   }),
 };
