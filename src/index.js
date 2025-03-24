@@ -3,8 +3,7 @@ const app = require('./app');
 const config = require('./config/config');
 const logger = require('./config/logger');
 
-const PORT = process.env.PORT || config.port; // Use Render's assigned PORT
-
+const PORT = process.env.PORT || 10000;
 let server;
 mongoose
   .connect(config.mongoose.url, config.mongoose.options)
