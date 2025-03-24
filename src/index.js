@@ -3,13 +3,21 @@ const app = require('./app');
 const config = require('./config/config');
 const logger = require('./config/logger');
 
+const PORT = process.env.PORT || config.port; // Use Render's assigned PORT
+
 let server;
-mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
-  logger.info('Connected to MongoDB');
-  server = app.listen(config.port, () => {
-    logger.info(`Listening to port ${config.port}`);
+mongoose
+  .connect(config.mongoose.url, config.mongoose.options)
+  .then(() => {
+    logger.info('Connected to MongoDB');
+
+    server = app.listen(PORT, () => {
+      logger.info(`Listening on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    logger.error('MongoDB Connection Error:', err);
   });
-});
 
 const exitHandler = () => {
   if (server) {
