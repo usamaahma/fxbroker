@@ -1,16 +1,24 @@
 const mongoose = require('mongoose');
-const app = require('./app');
+const app = require('./app'); // Correct path
 const config = require('./config/config');
 const logger = require('./config/logger');
 
 let server;
+
+// Connect to MongoDB
 mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
   logger.info('Connected to MongoDB');
-  server = app.listen(config.port, () => {
-    logger.info(`Listening to port ${config.port}`);
+
+  // Use the PORT from environment or fallback to config port
+  const PORT = process.env.PORT || config.port;
+
+  // Start the server
+  server = app.listen(PORT, () => {
+    logger.info(`Listening to port ${PORT}`);
   });
 });
 
+// Exit Handler
 const exitHandler = () => {
   if (server) {
     server.close(() => {
@@ -22,6 +30,7 @@ const exitHandler = () => {
   }
 };
 
+// Unexpected Error Handler
 const unexpectedErrorHandler = (error) => {
   logger.error(error);
   exitHandler();
