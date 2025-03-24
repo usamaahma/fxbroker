@@ -7,12 +7,14 @@ const PORT = process.env.PORT || config.port; // Ensure it binds to Render's POR
 let server;
 
 // Connect to MongoDB
-mongoose.connect(config.mongoose.url, config.mongoose.options)
+mongoose
+  .connect(config.mongoose.url, config.mongoose.options)
   .then(() => {
     logger.info('Connected to MongoDB');
 
     // Start the server
-    server = app.listen(PORT, '0.0.0.0', () => {  // Ensure it binds to 0.0.0.0
+    server = app.listen(PORT, '0.0.0.0', () => {
+      // Ensure it binds to 0.0.0.0
       logger.info(`Listening on port ${PORT}`);
     });
 
