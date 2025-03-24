@@ -1,22 +1,33 @@
 const mongoose = require('mongoose');
-const app = require('./app'); // Correct path
+const app = require('./app'); // Ensure the correct path
 const config = require('./config/config');
 const logger = require('./config/logger');
 
+const PORT = process.env.PORT || config.port; // Use Render's assigned PORT
 let server;
 
 // Connect to MongoDB
-mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
-  logger.info('Connected to MongoDB');
+mongoose.connect(config.mongoose.url, config.mongoose.options)
+  .then(() => {
+    logger.info('Connected to MongoDB');
 
-  // Use the PORT from environment or fallback to config port
-  const PORT = process.env.PORT || config.port;
+    // Start the server
+    server = app.listen(PORT, () => {
+      logger.info(`Listening to port ${PORT}`);
+    });
 
-  // Start the server
-  server = app.listen(PORT, () => {
-    logger.info(`Listening to port ${PORT}`);
+    // Handle SIGTERM for graceful shutdown
+    process.on('SIGTERM', () => {
+      logger.info('SIGTERM received');
+      if (server) {
+        server.close(() => logger.info('Process terminated'));
+      }
+    });
+  })
+  .catch((err) => {
+    logger.error('MongoDB connection error:', err);
+    process.exit(1);
   });
-});
 
 // Exit Handler
 const exitHandler = () => {
@@ -38,10 +49,3 @@ const unexpectedErrorHandler = (error) => {
 
 process.on('uncaughtException', unexpectedErrorHandler);
 process.on('unhandledRejection', unexpectedErrorHandler);
-
-process.on('SIGTERM', () => {
-  logger.info('SIGTERM received');
-  if (server) {
-    server.close();
-  }
-});
