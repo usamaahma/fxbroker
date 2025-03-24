@@ -5,35 +5,47 @@ const logger = require('./config/logger');
 
 let server;
 
-// Enhanced MongoDB connection with better error handling
-mongoose
-  .connect(config.mongoose.url, config.mongoose.options)
-  .then(() => {
-    logger.info('✅ Connected to MongoDB successfully');
+// --- Function Declarations (hoisted) ---
 
-    // Get the port from environment or config (Render provides process.env.PORT)
-    const PORT = process.env.PORT || config.port;
+// Server startup function
+function startServer() {
+  const PORT = process.env.PORT || config.port;
 
-    // Must bind to 0.0.0.0 for Render
-    server = app
-      .listen(PORT, '0.0.0.0', () => {
-        logger.info(`🚀 Server running on port ${PORT}`);
-        logger.info(`⚡ Environment: ${config.env}`);
-      })
-      .on('error', (err) => {
-        logger.error('💥 Server startup error:', err);
-        process.exit(1);
-      });
+  server = app
+    .listen(PORT, '0.0.0.0', () => {
+      logger.info(`🚀 Server running on port ${PORT}`);
+      logger.info(`⚡ Environment: ${config.env}`);
+      logger.info(`📡 Access URL: http://localhost:${PORT}`);
+    })
+    .on('error', (err) => {
+      logger.error('💥 Server startup error:', err);
+      process.exit(1);
+    });
 
-    // Add ping route for Render health checks
-    app.get('/ping', (req, res) => res.status(200).send('pong'));
-  })
-  .catch((err) => {
-    logger.error('❌ MongoDB connection error:', err);
-    process.exit(1);
+  // Health check endpoint (for Render monitoring)
+  app.get('/ping', (req, res) => {
+    res.status(200).json({
+      status: 'OK',
+      database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
+    });
   });
+}
 
-// Enhanced error handlers
+// Enhanced MongoDB connection with retry logic
+function connectWithRetry() {
+  mongoose
+    .connect(config.mongoose.url, config.mongoose.options)
+    .then(() => {
+      logger.info('✅ Connected to MongoDB successfully');
+      startServer();
+    })
+    .catch((err) => {
+      logger.error('❌ MongoDB initial connection failed, retrying in 5 seconds...', err);
+      setTimeout(connectWithRetry, 5000); // Retry after 5 seconds
+    });
+}
+
+// Error handlers
 const exitHandler = () => {
   if (server) {
     server.close(() => {
@@ -50,6 +62,9 @@ const unexpectedErrorHandler = (error) => {
   exitHandler();
 };
 
+// --- Execution Starts Here ---
+connectWithRetry();
+
 process.on('uncaughtException', unexpectedErrorHandler);
 process.on('unhandledRejection', unexpectedErrorHandler);
 
@@ -57,8 +72,10 @@ process.on('SIGTERM', () => {
   logger.info('🛑 SIGTERM received - Shutting down gracefully');
   if (server) {
     server.close(() => {
-      logger.info('💤 Process terminated');
-      process.exit(0);
+      mongoose.connection.close(false, () => {
+        logger.info('💤 MongoDB connection closed');
+        process.exit(0);
+      });
     });
   }
 });
