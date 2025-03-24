@@ -3,7 +3,7 @@ const app = require('./app'); // Ensure the correct path
 const config = require('./config/config');
 const logger = require('./config/logger');
 
-const PORT = process.env.PORT || config.port; // Use Render's assigned PORT
+const PORT = process.env.PORT || config.port; // Ensure it binds to Render's PORT
 let server;
 
 // Connect to MongoDB
@@ -12,8 +12,8 @@ mongoose.connect(config.mongoose.url, config.mongoose.options)
     logger.info('Connected to MongoDB');
 
     // Start the server
-    server = app.listen(PORT, () => {
-      logger.info(`Listening to port ${PORT}`);
+    server = app.listen(PORT, '0.0.0.0', () => {  // Ensure it binds to 0.0.0.0
+      logger.info(`Listening on port ${PORT}`);
     });
 
     // Handle SIGTERM for graceful shutdown
