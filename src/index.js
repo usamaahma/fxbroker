@@ -10,7 +10,7 @@ mongoose
   .then(() => {
     logger.info('Connected to MongoDB');
 
-    server = app.listen(PORT, () => {
+    server = app.listen(PORT, '0.0.0.0', () => {
       logger.info(`Listening on port ${PORT}`);
     });
   })
