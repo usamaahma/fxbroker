@@ -4,6 +4,7 @@ const userRoute = require('./user.route');
 const kycRoute = require('./kyc.route');
 const accountRoute = require('./account.route');
 const uploadRoute = require('./upload.route');
+const depositRoute = require('./deposit.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 
@@ -29,6 +30,10 @@ const defaultRoutes = [
   {
     path: '/upload',
     route: uploadRoute,
+  },
+  {
+    path: '/deposit',
+    route: depositRoute,
   },
 ];
 
