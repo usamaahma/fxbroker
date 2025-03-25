@@ -3,14 +3,14 @@ const { objectId } = require('./custom.validation');
 
 const createDeposit = {
   body: Joi.object().keys({
-    userId: Joi.string().required().custom(objectId),
+    user: Joi.string().required().custom(objectId),
     image: Joi.string().required(),
   }),
 };
 
 const getDeposits = {
   query: Joi.object().keys({
-    userId: Joi.string().custom(objectId),
+    user: Joi.string().custom(objectId),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
@@ -19,7 +19,7 @@ const getDeposits = {
 
 const getDepositByUserId = {
   params: Joi.object().keys({
-    userId: Joi.string().required().custom(objectId),
+    user: Joi.string().required().custom(objectId),
   }),
 };
 
