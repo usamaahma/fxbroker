@@ -19,7 +19,7 @@ const getDeposits = {
 
 const getDepositByUserId = {
   params: Joi.object().keys({
-    user: Joi.string().required().custom(objectId),
+    userId: Joi.string().required().custom(objectId), // ✅ Now it matches the route
   }),
 };
 
