@@ -25,7 +25,7 @@ const getDeposits = async (filter) => {
  * @returns {Promise<Deposit>}
  */
 const getDepositByUserId = async (userId) => {
-  return Deposit.findOne({ userId });
+  return Deposit.findOne({ user: userId });
 };
 
 /**
