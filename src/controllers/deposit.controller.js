@@ -14,10 +14,7 @@ const createDeposit = catchAsync(async (req, res) => {
  * Get all deposit records with filters & pagination
  */
 const getDeposits = catchAsync(async (req, res) => {
-  const deposits = await depositService.getDeposits(req.query, {
-    page: req.query.page,
-    limit: req.query.limit,
-  });
+  const deposits = await depositService.getDeposits(req.query); // 👈 Yeh function call ho raha hai
   res.send(deposits);
 });
 

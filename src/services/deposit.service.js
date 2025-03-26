@@ -15,8 +15,8 @@ const createDeposit = async (depositBody) => {
  * @param {Object} options
  * @returns {Promise<QueryResult>}
  */
-const getDeposits = async (filter, options) => {
-  return Deposit.paginate(filter, options);
+const getDeposits = async (filter) => {
+  return Deposit.find(filter); // 👈 Direct return kar diya
 };
 
 /**
