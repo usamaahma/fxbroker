@@ -1,6 +1,6 @@
 const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
-const { depdrawsService } = require('../services/depdraws.service');
+const { depdrawsService } = require('../services');
 
 /**
  * Create a new Depdraws record
