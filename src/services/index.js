@@ -8,3 +8,4 @@ module.exports.depositService = require('./deposit.service');
 module.exports.withdrawService = require('./withdraw.service');
 module.exports.helpdeskService = require('./helpdesk.service');
 module.exports.nodemailerService = require('./nodemailer.service');
+module.exports.depdrawsService = require('./depdraws.service');

@@ -5,3 +5,4 @@ module.exports.accountValidation = require('./account.validation');
 module.exports.depositValidation = require('./deposit.validation');
 module.exports.withdrawValidation = require('./withdraw.validation');
 module.exports.helpdeskValidation = require('./helpdesk.validation');
+module.exports.depdrawsValidation = require('./depdraws.validation');
