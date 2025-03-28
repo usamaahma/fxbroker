@@ -18,7 +18,6 @@ const getAccounts = {
     userId: Joi.string().custom(objectId),
     accountType: Joi.string().valid('demo', 'real'),
     sortBy: Joi.string(),
-    limit: Joi.number().integer(),
     page: Joi.number().integer(),
   }),
 };
