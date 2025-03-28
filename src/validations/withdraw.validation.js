@@ -3,7 +3,7 @@ const { objectId } = require('./custom.validation');
 
 const createWithdraw = {
   body: Joi.object().keys({
-    user: Joi.string().required().custom(objectId),
+    userId: Joi.string().required().custom(objectId),
     tradingAccountId: Joi.string().required(),
     accountNumber: Joi.string().required(),
     accountName: Joi.string().required(),
@@ -13,7 +13,7 @@ const createWithdraw = {
 
 const getWithdraws = {
   query: Joi.object().keys({
-    user: Joi.string().custom(objectId),
+    userId: Joi.string().custom(objectId),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
@@ -22,7 +22,7 @@ const getWithdraws = {
 
 const getWithdrawByUserId = {
   params: Joi.object().keys({
-    user: Joi.string().required().custom(objectId),
+    userId: Joi.string().required().custom(objectId),
   }),
 };
 

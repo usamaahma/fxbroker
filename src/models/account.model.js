@@ -34,6 +34,11 @@ const accountSchema = mongoose.Schema(
       type: String,
       trim: true,
     },
+    status: {
+      type: String,
+      enum: ['pending', 'verified'],
+      default: 'pending',
+    },
   },
   {
     timestamps: true,

@@ -10,7 +10,7 @@ router
   .post(validate(withdrawValidation.createWithdraw), withdrawController.createWithdraw)
   .get(validate(withdrawValidation.getWithdraws), withdrawController.getWithdraws);
 
-router.route('/:userId').get(validate(withdrawValidation.getWithdrawByUserId), withdrawController.getWithdrawByUserId);
+router.route('/user/:userId').get(validate(withdrawValidation.getWithdrawByUserId), withdrawController.getWithdrawByUserId);
 
 router
   .route('/:withdrawId')

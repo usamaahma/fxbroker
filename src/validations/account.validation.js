@@ -10,6 +10,7 @@ const createAccount = {
     amount: Joi.number().min(0),
     phone: Joi.string().trim(),
     country: Joi.string().trim(),
+    status: Joi.string(),
   }),
 };
 
@@ -18,7 +19,6 @@ const getAccounts = {
     userId: Joi.string().custom(objectId),
     accountType: Joi.string().valid('demo', 'real'),
     sortBy: Joi.string(),
-    page: Joi.number().integer(),
   }),
 };
 
@@ -40,6 +40,7 @@ const updateAccount = {
       amount: Joi.number().min(0),
       phone: Joi.string().trim(),
       country: Joi.string().trim(),
+      status: Joi.string(),
     })
     .min(1), // At least one field must be provided for update
 };

@@ -10,7 +10,7 @@ router
   .post(validate(depositValidation.createDeposit), depositController.createDeposit)
   .get(validate(depositValidation.getDeposits), depositController.getDeposits);
 
-router.route('/:userId').get(validate(depositValidation.getDepositByUserId), depositController.getDepositByUserId);
+router.route('/user/:userId').get(validate(depositValidation.getDepositByUserId), depositController.getDepositByUserId);
 
 router
   .route('/:depositId')

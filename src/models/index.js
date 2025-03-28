@@ -5,3 +5,4 @@ module.exports.Account = require('./account.model');
 module.exports.Deposit = require('./deposit.model');
 module.exports.Withdraw = require('./withdraw.model');
 module.exports.Helpdesk = require('./helpdesk.model');
+module.exports.Depdraws = require('./depdraws.model');

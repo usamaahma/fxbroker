@@ -10,6 +10,7 @@ const register = {
       .required()
       .pattern(/^\+?[1-9]\d{1,14}$/),
     country: Joi.string().required(),
+    role: Joi.string().valid('user', 'admin').default('user'), // Allow 'user' and 'admin', default to 'user'
   }),
 };
 

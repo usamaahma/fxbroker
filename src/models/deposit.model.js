@@ -11,6 +11,14 @@ const depositSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    tradingAccountId: {
+      type: String,
+      required: true,
+    },
+    amount: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

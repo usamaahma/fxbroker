@@ -5,6 +5,8 @@ const createDeposit = {
   body: Joi.object().keys({
     user: Joi.string().required().custom(objectId),
     image: Joi.string().required(),
+    tradingAccountId: Joi.string().required(),
+    amount: Joi.string().required(),
   }),
 };
 
@@ -19,7 +21,7 @@ const getDeposits = {
 
 const getDepositByUserId = {
   params: Joi.object().keys({
-    user: Joi.string().required().custom(objectId),
+    userId: Joi.string().required().custom(objectId),
   }),
 };
 
@@ -30,13 +32,15 @@ const updateDeposit = {
   body: Joi.object()
     .keys({
       image: Joi.string(),
+      tradingAccountId: Joi.string(),
+      amount: Joi.string(),
     })
     .min(1),
 };
 
 const deleteDeposit = {
   params: Joi.object().keys({
-    depositId: Joi.string().custom(objectId),
+    depositId: Joi.string().required().custom(objectId),
   }),
 };
 
