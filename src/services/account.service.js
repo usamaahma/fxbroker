@@ -15,8 +15,8 @@ const createAccount = async (accountBody) => {
  * @param {Object} options
  * @returns {Promise<QueryResult>}
  */
-const getAccounts = async (filter, options) => {
-  return Account.paginate(filter, options);
+const getAccounts = async (filter) => {
+  return Account.find(filter);
 };
 
 /**

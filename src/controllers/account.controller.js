@@ -14,7 +14,7 @@ const createAccount = catchAsync(async (req, res) => {
  * Get all Account records with filters & pagination
  */
 const getAccounts = catchAsync(async (req, res) => {
-  const accounts = await accountService.getAccounts(req.query, { page: req.query.page, limit: req.query.limit });
+  const accounts = await accountService.getAccounts(req.query); // Pagination options removed
   res.send(accounts);
 });
 
