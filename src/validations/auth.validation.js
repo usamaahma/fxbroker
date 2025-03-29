@@ -8,7 +8,7 @@ const register = {
     name: Joi.string().required(),
     phoneNumber: Joi.string()
       .required()
-      .pattern(/^\+?[1-9]\d{1,14}$/),
+      .pattern(/^\d{10,15}$/),
     country: Joi.string().required(),
     role: Joi.string().valid('user', 'admin').default('user'), // Allow 'user' and 'admin', default to 'user'
   }),
