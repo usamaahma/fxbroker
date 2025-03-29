@@ -30,7 +30,7 @@ const getAccountByUserId = {
 
 const updateAccount = {
   params: Joi.object().keys({
-    userId: Joi.string().required().custom(objectId),
+    accountId: Joi.string().required().custom(objectId), // userId replaced with accountId
   }),
   body: Joi.object()
     .keys({
@@ -47,7 +47,7 @@ const updateAccount = {
 
 const deleteAccount = {
   params: Joi.object().keys({
-    userId: Joi.string().custom(objectId),
+    accountId: Joi.string().required().custom(objectId), // userId replaced with accountId
   }),
 };
 

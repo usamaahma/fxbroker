@@ -10,9 +10,10 @@ router
   .post(validate(accountValidation.createAccount), accountController.createAccount) // نیا اکاؤنٹ بنائے گا
   .get(validate(accountValidation.getAccounts), accountController.getAccounts); // سب اکاؤنٹس نکالے گا
 
+router.route('/user/:userId').get(validate(accountValidation.getAccountByUserId), accountController.getAccountByUserId); // مخصوص userId کا اکاؤنٹ حاصل کرے گا
+
 router
-  .route('/:userId')
-  .get(validate(accountValidation.getAccountByUserId), accountController.getAccountByUserId) // مخصوص userId کا اکاؤنٹ حاصل کرے گا
+  .route('/:accountId')
   .patch(validate(accountValidation.updateAccount), accountController.updateAccount) // اکاؤنٹ اپڈیٹ کرے گا
   .delete(validate(accountValidation.deleteAccount), accountController.deleteAccount); // اکاؤنٹ ڈیلیٹ کرے گا
 

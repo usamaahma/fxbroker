@@ -12,7 +12,6 @@ const createAccount = async (accountBody) => {
 /**
  * Get all Account records with filtering and pagination
  * @param {Object} filter
- * @param {Object} options
  * @returns {Promise<QueryResult>}
  */
 const getAccounts = async (filter) => {
@@ -20,22 +19,25 @@ const getAccounts = async (filter) => {
 };
 
 /**
- * Get a single Account record by userId
- * @param {ObjectId} userId
+ * Get a single Account record by accountId
+ * @param {ObjectId} accountId
  * @returns {Promise<Account>}
  */
+const getAccountById = async (accountId) => {
+  return Account.findById(accountId);
+};
 const getAccountByUserId = async (userId) => {
   return Account.findOne({ userId });
 };
 
 /**
- * Update Account details by userId
- * @param {ObjectId} userId
+ * Update Account details by accountId
+ * @param {ObjectId} accountId
  * @param {Object} updateBody
  * @returns {Promise<Account>}
  */
-const updateAccount = async (userId, updateBody) => {
-  const account = await getAccountByUserId(userId);
+const updateAccount = async (accountId, updateBody) => {
+  const account = await getAccountById(accountId);
   if (!account) {
     throw new Error('Account not found');
   }
@@ -45,12 +47,12 @@ const updateAccount = async (userId, updateBody) => {
 };
 
 /**
- * Delete Account record by userId
- * @param {ObjectId} userId
+ * Delete Account record by accountId
+ * @param {ObjectId} accountId
  * @returns {Promise<Account>}
  */
-const deleteAccount = async (userId) => {
-  const account = await getAccountByUserId(userId);
+const deleteAccount = async (accountId) => {
+  const account = await getAccountById(accountId);
   if (!account) {
     throw new Error('Account not found');
   }
@@ -61,6 +63,7 @@ const deleteAccount = async (userId) => {
 module.exports = {
   createAccount,
   getAccounts,
+  getAccountById,
   getAccountByUserId,
   updateAccount,
   deleteAccount,

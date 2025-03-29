@@ -19,8 +19,15 @@ const getAccounts = catchAsync(async (req, res) => {
 });
 
 /**
- * Get Account details by userId
+ * Get Account details by accountId
  */
+const getAccountById = catchAsync(async (req, res) => {
+  const account = await accountService.getAccountById(req.params.accountId);
+  if (!account) {
+    return res.status(httpStatus.NOT_FOUND).send({ message: 'Account not found' });
+  }
+  res.send(account);
+});
 const getAccountByUserId = catchAsync(async (req, res) => {
   const account = await accountService.getAccountByUserId(req.params.userId);
   if (!account) {
@@ -28,27 +35,27 @@ const getAccountByUserId = catchAsync(async (req, res) => {
   }
   res.send(account);
 });
-
 /**
- * Update Account details by userId
+ * Update Account details by accountId
  */
 const updateAccount = catchAsync(async (req, res) => {
-  const account = await accountService.updateAccount(req.params.userId, req.body);
+  const account = await accountService.updateAccount(req.params.accountId, req.body);
   res.send(account);
 });
 
 /**
- * Delete Account record by userId
+ * Delete Account record by accountId
  */
 const deleteAccount = catchAsync(async (req, res) => {
-  await accountService.deleteAccount(req.params.userId);
+  await accountService.deleteAccount(req.params.accountId);
   res.status(httpStatus.NO_CONTENT).send();
 });
 
 module.exports = {
   createAccount,
   getAccounts,
-  getAccountByUserId,
+  getAccountById,
   updateAccount,
   deleteAccount,
+  getAccountByUserId,
 };
