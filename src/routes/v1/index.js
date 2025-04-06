@@ -7,7 +7,6 @@ const uploadRoute = require('./upload.route');
 const depositRoute = require('./deposit.route');
 const withdrawRoute = require('./withdraw.route');
 const helpdeskRoute = require('./helpdesk.route');
-const nodemailerRoute = require('./nodemailer.route');
 const depdrawsRoute = require('./depdraws.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
@@ -48,15 +47,10 @@ const defaultRoutes = [
     route: helpdeskRoute,
   },
   {
-    path: '/sendmail',
-    route: nodemailerRoute,
-  },
-  {
     path: '/depdraws',
     route: depdrawsRoute,
   },
 ];
-
 const devRoutes = [
   // routes available only in development mode
   {
