@@ -8,6 +8,7 @@ const createWithdraw = {
     accountNumber: Joi.string().required(),
     accountName: Joi.string().required(),
     amount: Joi.number().required(),
+    status: Joi.string(),
   }),
 };
 
@@ -36,6 +37,7 @@ const updateWithdraw = {
       accountNumber: Joi.string(),
       accountName: Joi.string(),
       amount: Joi.number(),
+      status: Joi.string(),
     })
     .min(1),
 };

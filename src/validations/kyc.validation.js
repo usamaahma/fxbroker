@@ -11,14 +11,14 @@ const createKyc = {
       accountNumber: Joi.string(),
       ibanNumber: Joi.string(),
     }),
-    status: Joi.string().valid('pending', 'verified'),
+    status: Joi.string(),
   }),
 };
 
 const getKycs = {
   query: Joi.object().keys({
     userId: Joi.string().custom(objectId),
-    status: Joi.string().valid('pending', 'verified'),
+    status: Joi.string(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
@@ -44,7 +44,7 @@ const updateKyc = {
         accountNumber: Joi.string(),
         ibanNumber: Joi.string(),
       }),
-      status: Joi.string().valid('pending', 'verified'),
+      status: Joi.string(),
     })
     .min(1),
 };

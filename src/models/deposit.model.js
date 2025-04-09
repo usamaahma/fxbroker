@@ -19,6 +19,11 @@ const depositSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    status: {
+      type: String,
+      enum: ['pending', 'verified', 'rejected'],
+      default: 'pending',
+    },
   },
   { timestamps: true }
 );

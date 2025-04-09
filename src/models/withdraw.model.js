@@ -23,6 +23,11 @@ const withdrawSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    status: {
+      type: String,
+      enum: ['pending', 'verified', 'rejected'],
+      default: 'pending',
+    },
   },
   { timestamps: true }
 );

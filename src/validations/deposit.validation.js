@@ -7,6 +7,7 @@ const createDeposit = {
     image: Joi.string().required(),
     tradingAccountId: Joi.string().required(),
     amount: Joi.string().required(),
+    status: Joi.string(),
   }),
 };
 
@@ -34,6 +35,7 @@ const updateDeposit = {
       image: Joi.string(),
       tradingAccountId: Joi.string(),
       amount: Joi.string(),
+      status: Joi.string(),
     })
     .min(1),
 };
