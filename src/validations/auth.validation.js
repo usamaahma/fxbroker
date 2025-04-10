@@ -13,14 +13,12 @@ const register = {
     role: Joi.string().valid('user', 'admin').default('user'), // Allow 'user' and 'admin', default to 'user'
   }),
 };
-
 const login = {
   body: Joi.object().keys({
     email: Joi.string().required(),
     password: Joi.string().required(),
   }),
 };
-
 const logout = {
   body: Joi.object().keys({
     refreshToken: Joi.string().required(),

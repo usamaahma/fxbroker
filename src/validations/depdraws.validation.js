@@ -15,7 +15,6 @@ const getDepdraws = {
     userId: Joi.string().custom(objectId),
     email: Joi.string().email(),
     sortBy: Joi.string(),
-    limit: Joi.number().integer(),
     page: Joi.number().integer(),
   }),
 };
