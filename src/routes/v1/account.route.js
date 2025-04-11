@@ -2,13 +2,11 @@ const express = require('express');
 const validate = require('../../middlewares/validate');
 const accountValidation = require('../../validations/account.validation');
 const accountController = require('../../controllers/account.controller');
-const auth = require('../../middlewares/auth'); // Add authentication middleware
 const { sendEmail } = require('../../services/nodemailer.service'); // Fixed path
 
 const router = express.Router();
 
 // Protect all routes with authentication
-router.use(auth());
 
 router
   .route('/')
