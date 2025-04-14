@@ -118,7 +118,25 @@ const generateResetPasswordToken = async (email) => {
   await saveToken(resetPasswordToken, user.id, expires, tokenTypes.RESET_PASSWORD);
   return resetPasswordToken;
 };
+const verifyResetPasswordToken = async (token) => {
+  try {
+    const payload = jwt.verify(token, config.jwt.secret);
+    if (payload.type !== 'RESET_PASSWORD') {
+      throw new Error('Invalid token type');
+    }
+    return payload.sub; // User ID
+  } catch (error) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid or expired token');
+  }
+};
 
+/**
+ * Delete all reset password tokens for a user
+ * @param {string} userId
+ */
+const deleteResetPasswordTokens = async (userId) => {
+  await Token.deleteMany({ user: userId, type: 'RESET_PASSWORD' });
+};
 /**
  * Generate verify email token
  * @param {User} user
@@ -138,4 +156,6 @@ module.exports = {
   generateAuthTokens,
   generateResetPasswordToken,
   generateVerifyEmailToken,
+  verifyResetPasswordToken,
+  deleteResetPasswordTokens,
 };

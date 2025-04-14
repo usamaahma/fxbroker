@@ -69,9 +69,9 @@ const resetPassword = catchAsync(async (req, res) => {
 });
 
 const resPassword = catchAsync(async (req, res) => {
-  const { resetPasswordToken, newPassword } = req.body;
-  const result = await authService.resPassword(resetPasswordToken, newPassword);
-  res.status(httpStatus.OK).send(result);
+  const { token, newPassword } = req.body;
+  await authService.resPassword(token, newPassword);
+  res.status(httpStatus.OK).send({ message: 'Password reset successful' });
 });
 
 const sendVerificationEmail = catchAsync(async (req, res) => {
