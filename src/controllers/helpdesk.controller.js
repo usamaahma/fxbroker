@@ -15,4 +15,19 @@ const getHelpdeskEntries = catchAsync(async (req, res) => {
   res.send(helpdeskEntries);
 });
 
-module.exports.controller = { createHelpdesk, getHelpdeskEntries };
+const deleteHelpdeskEntry = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const deletedEntry = await service.deleteHelpdeskEntry(id);
+
+  if (!deletedEntry) {
+    return res.status(httpStatus.NOT_FOUND).send({ message: 'Helpdesk entry not found' });
+  }
+
+  res.status(httpStatus.NO_CONTENT).send(); // 204 No Content
+});
+
+module.exports.controller = {
+  createHelpdesk,
+  getHelpdeskEntries,
+  deleteHelpdeskEntry,
+};

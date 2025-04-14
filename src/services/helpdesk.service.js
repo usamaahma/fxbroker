@@ -10,4 +10,12 @@ const getHelpdeskEntries = async (filter, options) => {
     .skip(options.page * options.limit);
 };
 
-module.exports.service = { createHelpdeskEntry, getHelpdeskEntries };
+const deleteHelpdeskEntry = async (id) => {
+  return Helpdesk.findByIdAndDelete(id);
+};
+
+module.exports.service = {
+  createHelpdeskEntry,
+  getHelpdeskEntries,
+  deleteHelpdeskEntry,
+};
