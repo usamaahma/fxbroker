@@ -6,11 +6,16 @@ const register = {
     email: Joi.string().required().email(),
     password: Joi.string().required().custom(password),
     name: Joi.string().required(),
-    phoneNumber: Joi.string()
-      .required()
-      .pattern(/^\d{10,15}$/),
-    country: Joi.string().required(),
-    role: Joi.string().valid('user', 'admin').default('user'), // Allow 'user' and 'admin', default to 'user'
+    phonenumber: Joi.string().required(),
+    role: Joi.string().required(),
+  }),
+};
+const registerGoogle = {
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    name: Joi.string().required(),
+    googleId: Joi.string().required(), // Unique Google ID from Google OAuth
+    role: Joi.string().optional().default('user'), // Default to 'user' if not provided
   }),
 };
 const login = {
@@ -19,6 +24,7 @@ const login = {
     password: Joi.string().required(),
   }),
 };
+
 const logout = {
   body: Joi.object().keys({
     refreshToken: Joi.string().required(),
@@ -38,11 +44,12 @@ const forgotPassword = {
 };
 
 const resetPassword = {
-  query: Joi.object().keys({
-    token: Joi.string().required(),
+  params: Joi.object().keys({
+    userId: Joi.string().required(), // Validating userId in URL params
   }),
   body: Joi.object().keys({
-    password: Joi.string().required().custom(password),
+    currentPassword: Joi.string().required(),
+    newPassword: Joi.string().required().custom(password), // Custom password validation
   }),
 };
 const resPassword = {
@@ -51,6 +58,7 @@ const resPassword = {
     newPassword: Joi.string().required().custom(password), // Custom password validation
   }),
 };
+
 const verifyEmail = {
   query: Joi.object().keys({
     token: Joi.string().required(),
@@ -65,5 +73,6 @@ module.exports = {
   forgotPassword,
   resetPassword,
   verifyEmail,
+  registerGoogle,
   resPassword,
 };

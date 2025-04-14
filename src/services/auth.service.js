@@ -57,47 +57,53 @@ const refreshAuth = async (refreshToken) => {
  * @param {string} newPassword
  * @returns {Promise}
  */
-const resetPassword = async (resetPasswordToken, newPassword) => {
+const resetPassword = async (userId, currentPassword, newPassword) => {
   try {
-    const resetPasswordTokenDoc = await tokenService.verifyToken(resetPasswordToken, tokenTypes.RESET_PASSWORD);
-    const user = await userService.getUserById(resetPasswordTokenDoc.user);
+    const user = await userService.getUserById(userId);
     if (!user) {
-      throw new Error();
+      throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
     }
+
+    const isMatch = await user.isPasswordMatch(currentPassword);
+    if (!isMatch) {
+      throw new ApiError(httpStatus.UNAUTHORIZED, 'Current password is incorrect');
+    }
+
     await userService.updateUserById(user.id, { password: newPassword });
-    await Token.deleteMany({ user: user.id, type: tokenTypes.RESET_PASSWORD });
+    return { message: 'Password updated successfully' }; // Return success message
   } catch (error) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Password reset failed');
   }
 };
+
+/**
+ * Reset password using a token
+ * @param {string} resetPasswordToken
+ * @param {string} newPassword
+ * @returns {Promise}
+ */
 const resPassword = async (resetPasswordToken, newPassword) => {
   try {
-    // Verify the token and get user ID
-    const userId = await tokenService.verifyToken(resetPasswordToken, tokenTypes.RESET_PASSWORD);
-
+    const userId = await tokenService.verifyResPasswordToken(resetPasswordToken);
     if (!userId) {
       throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid or expired reset password token');
     }
+    // console.log('Verified user ID:', userId);
 
     const user = await userService.getUserById(userId);
     if (!user) {
       throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
     }
 
-    // Update password
     await userService.updateUserById(userId, { password: newPassword });
-
-    // Delete all reset tokens for this user
-    await Token.deleteMany({
-      user: userId,
-      type: tokenTypes.RESET_PASSWORD,
-    });
 
     return { message: 'Password updated successfully' };
   } catch (error) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, error.message || 'Password reset failed');
+    // console.error('Error resetting password:', error.message);
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Password reset failed');
   }
 };
+
 /**
  * Verify email
  * @param {string} verifyEmailToken
