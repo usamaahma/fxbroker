@@ -72,23 +72,30 @@ const resetPassword = async (resetPasswordToken, newPassword) => {
 };
 const resPassword = async (resetPasswordToken, newPassword) => {
   try {
-    const userId = await tokenService.verifyResPasswordToken(resetPasswordToken);
+    // Verify the token and get user ID
+    const userId = await tokenService.verifyToken(resetPasswordToken, tokenTypes.RESET_PASSWORD);
+
     if (!userId) {
       throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid or expired reset password token');
     }
-    // console.log('Verified user ID:', userId);
 
     const user = await userService.getUserById(userId);
     if (!user) {
       throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
     }
 
+    // Update password
     await userService.updateUserById(userId, { password: newPassword });
+
+    // Delete all reset tokens for this user
+    await Token.deleteMany({
+      user: userId,
+      type: tokenTypes.RESET_PASSWORD,
+    });
 
     return { message: 'Password updated successfully' };
   } catch (error) {
-    // console.error('Error resetting password:', error.message);
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Password reset failed');
+    throw new ApiError(httpStatus.UNAUTHORIZED, error.message || 'Password reset failed');
   }
 };
 /**
