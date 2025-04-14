@@ -7,4 +7,7 @@ const router = express.Router();
 
 router.route('/').post(validate(validation.createHelpdesk), controller.createHelpdesk).get(controller.getHelpdeskEntries);
 
+// 🔥 DELETE route for deleting helpdesk entry by ID
+router.route('/:id').delete(controller.deleteHelpdeskEntry);
+
 module.exports = router;

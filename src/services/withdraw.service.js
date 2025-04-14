@@ -25,7 +25,7 @@ const getWithdraws = async (filter, options) => {
  * @returns {Promise<Withdraw>}
  */
 const getWithdrawByUserId = async (userId) => {
-  return Withdraw.findOne({ userId });
+  return Withdraw.find({ userId });
 };
 
 /**

@@ -7,4 +7,10 @@ const createHelpdesk = {
   }),
 };
 
-module.exports.validation = { createHelpdesk };
+const deleteHelpdesk = {
+  params: Joi.object().keys({
+    id: Joi.string().required(), // Assuming it's a string (like MongoDB ObjectId)
+  }),
+};
+
+module.exports.validation = { createHelpdesk, deleteHelpdesk };
