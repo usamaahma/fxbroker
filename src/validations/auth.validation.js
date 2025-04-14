@@ -45,7 +45,12 @@ const resetPassword = {
     password: Joi.string().required().custom(password),
   }),
 };
-
+const resPassword = {
+  body: Joi.object().keys({
+    resetPasswordToken: Joi.string().required(),
+    newPassword: Joi.string().required().custom(password), // Custom password validation
+  }),
+};
 const verifyEmail = {
   query: Joi.object().keys({
     token: Joi.string().required(),
@@ -60,4 +65,5 @@ module.exports = {
   forgotPassword,
   resetPassword,
   verifyEmail,
+  resPassword,
 };
