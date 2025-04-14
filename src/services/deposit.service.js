@@ -25,9 +25,8 @@ const getDeposits = async (filter) => {
  * @returns {Promise<Deposit>}
  */
 const getDepositByUserId = async (userId) => {
-  return Deposit.findOne({ user: userId });
+  return Deposit.find({ user: userId }); // ✅ will return an array of deposits
 };
-
 /**
  * Update deposit details by depositId
  * @param {ObjectId} depositId
