@@ -89,7 +89,6 @@ const resPassword = async (token, newPassword) => {
     if (!userId) {
       throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid or expired reset password token');
     }
-
     await userService.updateUserById(userId, { password: newPassword }, { skipAuth: true });
 
     // Delete all reset tokens for this user (optional)

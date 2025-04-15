@@ -7,7 +7,8 @@ const register = {
     password: Joi.string().required().custom(password),
     name: Joi.string().required(),
     phonenumber: Joi.string().required(),
-    role: Joi.string().required(),
+    country: Joi.string().required(),
+    role: Joi.string().optional().default('user'), // Default to 'user' if not provided
   }),
 };
 const registerGoogle = {
