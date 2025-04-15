@@ -82,16 +82,20 @@ const refreshAuth = async (refreshToken) => {
  * @param {string} newPassword
  * @returns {Promise}
  */
-const resPassword = async (resetPasswordToken, newPassword) => {
+const resPassword = async (token, newPassword) => {
   try {
-    const userId = await tokenService.verifyResPasswordToken(resetPasswordToken);
+    // Verify the token and get the user ID
+    const userId = await tokenService.verifyResetPasswordToken(token);
     if (!userId) {
       throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid or expired reset password token');
     }
 
     await userService.updateUserById(userId, { password: newPassword }, { skipAuth: true });
 
-    return { message: 'Password updated successfully' };
+    // Delete all reset tokens for this user (optional)
+    await tokenService.deleteResetPasswordTokens(userId);
+
+    return { message: 'Password reset successful' };
   } catch (error) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Password reset failed');
   }

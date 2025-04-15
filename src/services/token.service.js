@@ -145,10 +145,10 @@ const verifyResPasswordToken = async (token) => {
   }
 };
 /**
- * Generate verify email token
- * @param {User} user
- * @returns {Promise<string>}
+ * Delete all reset password tokens for a user
+ * @param {string} userId
  */
+
 const generateVerifyEmailToken = async (user) => {
   const expires = moment().add(config.jwt.verifyEmailExpirationMinutes, 'minutes');
   const verifyEmailToken = generateToken(user.id, expires, tokenTypes.VERIFY_EMAIL);

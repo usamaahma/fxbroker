@@ -54,8 +54,8 @@ const forgotPassword = {
 // };
 const resPassword = {
   body: Joi.object().keys({
-    resetPasswordToken: Joi.string().required(),
-    newPassword: Joi.string().required().custom(password), // Custom password validation
+    token: Joi.string().required(), // Reset token (sent via email)
+    newPassword: Joi.string().required().custom(password), // Must meet password criteria
   }),
 };
 
