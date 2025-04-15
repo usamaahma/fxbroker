@@ -1,7 +1,6 @@
 const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
 const { authService, userService, tokenService, emailService } = require('../services');
-const ApiError = require('../utils/ApiError');
 
 const register = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
@@ -57,16 +56,16 @@ const forgotPassword = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
-const resetPassword = catchAsync(async (req, res) => {
-  const { currentPassword, newPassword } = req.body;
-  const { userId } = req.params;
+// const resetPassword = catchAsync(async (req, res) => {
+//   const { currentPassword, newPassword } = req.body;
+//   const { userId } = req.params;
 
-  if (!userId) {
-    throw new ApiError(400, 'User ID is missing in parameters');
-  }
-  const result = await authService.resetPassword(userId, currentPassword, newPassword);
-  res.status(httpStatus.OK).send(result);
-});
+//   if (!userId) {
+//     throw new ApiError(400, 'User ID is missing in parameters');
+//   }
+//   const result = await authService.resetPassword(userId, currentPassword, newPassword);
+//   res.status(httpStatus.OK).send(result);
+// });
 
 const resPassword = catchAsync(async (req, res) => {
   const { resetPasswordToken, newPassword } = req.body;
@@ -91,7 +90,7 @@ module.exports = {
   logout,
   refreshTokens,
   forgotPassword,
-  resetPassword,
+  // resetPassword,
   sendVerificationEmail,
   verifyEmail,
   registerGoogle,

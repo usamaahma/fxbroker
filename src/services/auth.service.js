@@ -57,24 +57,24 @@ const refreshAuth = async (refreshToken) => {
  * @param {string} newPassword
  * @returns {Promise}
  */
-const resetPassword = async (userId, currentPassword, newPassword) => {
-  try {
-    const user = await userService.getUserById(userId);
-    if (!user) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
-    }
+// const resetPassword = async (userId, currentPassword, newPassword) => {
+//   try {
+//     const user = await userService.getUserById(userId);
+//     if (!user) {
+//       throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+//     }
 
-    const isMatch = await user.isPasswordMatch(currentPassword);
-    if (!isMatch) {
-      throw new ApiError(httpStatus.UNAUTHORIZED, 'Current password is incorrect');
-    }
+//     const isMatch = await user.isPasswordMatch(currentPassword);
+//     if (!isMatch) {
+//       throw new ApiError(httpStatus.UNAUTHORIZED, 'Current password is incorrect');
+//     }
 
-    await userService.updateUserById(user.id, { password: newPassword });
-    return { message: 'Password updated successfully' }; // Return success message
-  } catch (error) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Password reset failed');
-  }
-};
+//     await userService.updateUserById(user.id, { password: newPassword });
+//     return { message: 'Password updated successfully' }; // Return success message
+//   } catch (error) {
+//     throw new ApiError(httpStatus.UNAUTHORIZED, 'Password reset failed');
+//   }
+// };
 
 /**
  * Reset password using a token
@@ -88,22 +88,14 @@ const resPassword = async (resetPasswordToken, newPassword) => {
     if (!userId) {
       throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid or expired reset password token');
     }
-    // console.log('Verified user ID:', userId);
 
-    const user = await userService.getUserById(userId);
-    if (!user) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
-    }
-
-    await userService.updateUserById(userId, { password: newPassword });
+    await userService.updateUserById(userId, { password: newPassword }, { skipAuth: true });
 
     return { message: 'Password updated successfully' };
   } catch (error) {
-    // console.error('Error resetting password:', error.message);
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Password reset failed');
   }
 };
-
 /**
  * Verify email
  * @param {string} verifyEmailToken
@@ -127,7 +119,7 @@ module.exports = {
   loginUserWithEmailAndPassword,
   logout,
   refreshAuth,
-  resetPassword,
+  // resetPassword,
   verifyEmail,
   resPassword,
 };

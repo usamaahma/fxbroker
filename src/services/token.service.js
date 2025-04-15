@@ -118,7 +118,32 @@ const generateResetPasswordToken = async (email) => {
   await saveToken(resetPasswordToken, user.id, expires, tokenTypes.RESET_PASSWORD);
   return resetPasswordToken;
 };
+const verifyResPasswordToken = async (token) => {
+  try {
+    const payload = jwt.verify(token, config.jwt.secret);
 
+    // Additional check for token type
+    if (payload.type !== tokenTypes.RESET_PASSWORD) {
+      throw new Error('Invalid token type');
+    }
+
+    // Check token exists in database
+    const tokenDoc = await Token.findOne({
+      token,
+      type: tokenTypes.RESET_PASSWORD,
+      user: payload.sub,
+      blacklisted: false,
+    });
+
+    if (!tokenDoc) {
+      throw new Error('Token not found in database');
+    }
+
+    return payload.sub; // Return user ID
+  } catch (error) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid or expired token');
+  }
+};
 /**
  * Generate verify email token
  * @param {User} user
@@ -138,4 +163,5 @@ module.exports = {
   generateAuthTokens,
   generateResetPasswordToken,
   generateVerifyEmailToken,
+  verifyResPasswordToken,
 };
