@@ -15,8 +15,8 @@ const createWithdraw = async (withdrawBody) => {
  * @param {Object} options
  * @returns {Promise<QueryResult>}
  */
-const getWithdraws = async (filter, options) => {
-  return Withdraw.paginate(filter, options);
+const getWithdraws = async (filter) => {
+  return Withdraw.find(filter);
 };
 
 /**
