@@ -27,7 +27,7 @@ const getAccountById = async (accountId) => {
   return Account.findById(accountId);
 };
 const getAccountByUserId = async (userId) => {
-  return Account.findOne({ userId });
+  return Account.find({ userId });
 };
 
 /**
