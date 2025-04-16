@@ -24,7 +24,7 @@ const getDepdraws = async (filter, options) => {
  * @returns {Promise<Depdraws>}
  */
 const getDepdrawsByUserId = async (userId) => {
-  return Depdraws.findOne({ userId });
+  return Depdraws.find({ userId });
 };
 
 /**
