@@ -10,7 +10,7 @@ const createHelpdesk = catchAsync(async (req, res) => {
 const getHelpdeskEntries = catchAsync(async (req, res) => {
   const helpdeskEntries = await service.getHelpdeskEntries(req.query, {
     page: req.query.page || 0,
-    limit: req.query.limit || 10,
+    limit: req.query.limit || 10000,
   });
   res.send(helpdeskEntries);
 });
