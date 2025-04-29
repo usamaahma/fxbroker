@@ -59,7 +59,9 @@ const deleteAccount = async (accountId) => {
   await account.remove();
   return account;
 };
-
+const deleteAllAccounts = async () => {
+  return Account.deleteMany({});
+};
 module.exports = {
   createAccount,
   getAccounts,
@@ -67,4 +69,5 @@ module.exports = {
   getAccountByUserId,
   updateAccount,
   deleteAccount,
+  deleteAllAccounts,
 };

@@ -14,7 +14,7 @@ const createAccount = catchAsync(async (req, res) => {
  * Get all Account records with filters & pagination
  */
 const getAccounts = catchAsync(async (req, res) => {
-  const accounts = await accountService.getAccounts(req.query); // Pagination options removed
+  const accounts = await accountService.getAccounts(req.query);
   res.send(accounts);
 });
 
@@ -28,6 +28,10 @@ const getAccountById = catchAsync(async (req, res) => {
   }
   res.send(account);
 });
+
+/**
+ * Get Account details by userId
+ */
 const getAccountByUserId = catchAsync(async (req, res) => {
   const account = await accountService.getAccountByUserId(req.params.userId);
   if (!account) {
@@ -35,6 +39,7 @@ const getAccountByUserId = catchAsync(async (req, res) => {
   }
   res.send(account);
 });
+
 /**
  * Update Account details by accountId
  */
@@ -51,6 +56,14 @@ const deleteAccount = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+/**
+ * Delete all Account records
+ */
+const deleteAllAccounts = catchAsync(async (req, res) => {
+  await accountService.deleteAllAccounts();
+  res.status(httpStatus.NO_CONTENT).send();
+});
+
 module.exports = {
   createAccount,
   getAccounts,
@@ -58,4 +71,5 @@ module.exports = {
   updateAccount,
   deleteAccount,
   getAccountByUserId,
+  deleteAllAccounts,
 };
