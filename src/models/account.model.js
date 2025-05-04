@@ -24,7 +24,7 @@ const accountSchema = mongoose.Schema(
     },
     amount: {
       type: Number,
-      default: 0, // Default amount 0 if not provided
+      default: 0,
     },
     phone: {
       type: String,
@@ -37,6 +37,11 @@ const accountSchema = mongoose.Schema(
     status: {
       type: String,
       enum: ['pending', 'verified', 'rejected'],
+      default: 'pending',
+    },
+    accCreated: {
+      type: String,
+      enum: ['pending', 'done'],
       default: 'pending',
     },
   },

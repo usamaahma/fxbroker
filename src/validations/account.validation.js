@@ -10,7 +10,8 @@ const createAccount = {
     amount: Joi.number().min(0),
     phone: Joi.string().trim(),
     country: Joi.string().trim(),
-    status: Joi.string(),
+    status: Joi.string().valid('pending', 'verified', 'rejected'),
+    accCreated: Joi.string().valid('pending', 'done'), // ✅ added here
   }),
 };
 
@@ -30,7 +31,7 @@ const getAccountByUserId = {
 
 const updateAccount = {
   params: Joi.object().keys({
-    accountId: Joi.string().required().custom(objectId), // userId replaced with accountId
+    accountId: Joi.string().required().custom(objectId),
   }),
   body: Joi.object()
     .keys({
@@ -40,14 +41,15 @@ const updateAccount = {
       amount: Joi.number().min(0),
       phone: Joi.string().trim(),
       country: Joi.string().trim(),
-      status: Joi.string(),
+      status: Joi.string().valid('pending', 'verified', 'rejected'),
+      accCreated: Joi.string().valid('pending', 'done'), // ✅ added here too
     })
-    .min(1), // At least one field must be provided for update
+    .min(1),
 };
 
 const deleteAccount = {
   params: Joi.object().keys({
-    accountId: Joi.string().required().custom(objectId), // userId replaced with accountId
+    accountId: Joi.string().required().custom(objectId),
   }),
 };
 
