@@ -14,7 +14,7 @@ const createKyc = catchAsync(async (req, res) => {
  * Get all KYC records with filters & pagination
  */
 const getKycs = catchAsync(async (req, res) => {
-  const kycs = await kycService.getKycs(req.query, { page: req.query.page, limit: req.query.limit });
+  const kycs = await kycService.getKycs(req.query, { page: req.query.page });
   res.send(kycs);
 });
 
