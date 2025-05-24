@@ -15,10 +15,9 @@ const createKyc = async (kycBody) => {
  * @param {Object} options
  * @returns {Promise<QueryResult>}
  */
-const getKycs = async (filter, options) => {
-  return Kyc.paginate(filter, options);
+const getKycs = async () => {
+  return Kyc.find(); // Saare records laayega
 };
-
 /**
  * Get a single KYC record by userId
  * @param {ObjectId} userId

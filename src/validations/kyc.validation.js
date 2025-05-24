@@ -16,12 +16,7 @@ const createKyc = {
 };
 
 const getKycs = {
-  query: Joi.object().keys({
-    userId: Joi.string().custom(objectId),
-    status: Joi.string(),
-    sortBy: Joi.string(),
-    page: Joi.number().integer(),
-  }),
+  query: Joi.object().keys({}),
 };
 
 const getKycByUserId = {
