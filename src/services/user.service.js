@@ -81,7 +81,32 @@ const deleteUserById = async (userId) => {
   await user.remove();
   return user;
 };
+const deleteMultipleUsersById = async (userIds) => {
+  const deletePromises = userIds.map(async (userId) => {
+    try {
+      const user = await User.findById(userId);
+      if (!user) {
+        return { userId, success: false, error: 'User not found' };
+      }
+      await user.remove();
+      return { userId, success: true };
+    } catch (error) {
+      return { userId, success: false, error: error.message };
+    }
+  });
 
+  const results = await Promise.all(deletePromises);
+
+  const successfulDeletes = results.filter((result) => result.success);
+  const failedDeletes = results.filter((result) => !result.success);
+
+  return {
+    total: userIds.length,
+    successful: successfulDeletes.length,
+    failed: failedDeletes.length,
+    results,
+  };
+};
 module.exports = {
   createUser,
   queryUsers,
@@ -89,4 +114,5 @@ module.exports = {
   getUserByEmail,
   updateUserById,
   deleteUserById,
+  deleteMultipleUsersById,
 };

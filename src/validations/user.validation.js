@@ -44,11 +44,16 @@ const deleteUser = {
     userId: Joi.string().custom(objectId),
   }),
 };
-
+const deleteMultipleUsers = {
+  body: Joi.object().keys({
+    userIds: Joi.array().items(Joi.string()).required().min(1),
+  }),
+};
 module.exports = {
   createUser,
   getUsers,
   getUser,
   updateUser,
   deleteUser,
+  deleteMultipleUsers,
 };

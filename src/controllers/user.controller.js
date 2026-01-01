@@ -33,11 +33,29 @@ const deleteUser = catchAsync(async (req, res) => {
   await userService.deleteUserById(req.params.userId);
   res.status(httpStatus.NO_CONTENT).send();
 });
+const deleteMultipleUsers = catchAsync(async (req, res) => {
+  const { userIds } = req.body;
 
+  if (!userIds || !Array.isArray(userIds) || userIds.length === 0) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'User IDs array is required');
+  }
+
+  const result = await userService.deleteMultipleUsersById(userIds);
+
+  if (result.successful === 0 && result.failed > 0) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to delete any users');
+  }
+
+  res.status(httpStatus.OK).send({
+    message: `Successfully deleted ${result.successful} user(s)`,
+    ...result,
+  });
+});
 module.exports = {
   createUser,
   getUsers,
   getUser,
   updateUser,
   deleteUser,
+  deleteMultipleUsers,
 };
